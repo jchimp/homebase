@@ -1,4 +1,4 @@
-const hearth = (() => {
+const homebase = (() => {
   function search(e) {
     e.preventDefault();
     const input = document.getElementById('search-input');
@@ -164,7 +164,7 @@ const hearth = (() => {
 
   function applyMode(mode) {
     document.documentElement.setAttribute('data-mode', mode);
-    localStorage.setItem('hearth-mode', mode);
+    localStorage.setItem('homebase-mode', mode);
     updateModeIcon(mode);
   }
 
@@ -176,7 +176,7 @@ const hearth = (() => {
   function setMode(mode) {
     if (mode === 'system') {
       document.documentElement.removeAttribute('data-mode');
-      localStorage.removeItem('hearth-mode');
+      localStorage.removeItem('homebase-mode');
       updateModeIcon(currentMode());
     } else {
       applyMode(mode);
@@ -187,7 +187,7 @@ const hearth = (() => {
   function applyTheme(theme) {
     const link = document.getElementById('theme-css');
     if (link) link.href = `/static/css/themes/${theme}.css`;
-    localStorage.setItem('hearth-theme', theme);
+    localStorage.setItem('homebase-theme', theme);
   }
 
   // Public theme switcher: cycle the known themes, persisting per browser.
@@ -195,7 +195,7 @@ const hearth = (() => {
   const THEMES = ['nord', 'slate', 'sage'];
 
   function currentTheme() {
-    const stored = localStorage.getItem('hearth-theme');
+    const stored = localStorage.getItem('homebase-theme');
     if (THEMES.includes(stored)) return stored;
     // Fall back to whatever the server rendered into the stylesheet href.
     const link = document.getElementById('theme-css');

@@ -9,14 +9,14 @@
     (function () {
       var KNOWN = ['nord', 'slate', 'sage'];
       var LEGACY = { midnight: 'sage', light: 'sage' };
-      var t = localStorage.getItem('hearth-theme');
-      if (t && LEGACY[t]) { t = LEGACY[t]; localStorage.setItem('hearth-theme', t); }
+      var t = localStorage.getItem('homebase-theme');
+      if (t && LEGACY[t]) { t = LEGACY[t]; localStorage.setItem('homebase-theme', t); }
       if (t && KNOWN.indexOf(t) !== -1) {
         document.getElementById('theme-css').href = '/static/css/themes/' + t + '.css';
       } else if (t) {
-        localStorage.removeItem('hearth-theme');
+        localStorage.removeItem('homebase-theme');
       }
-      var m = localStorage.getItem('hearth-mode');
+      var m = localStorage.getItem('homebase-mode');
       if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-mode', m);
     })();
   </script>

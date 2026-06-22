@@ -147,6 +147,6 @@ def build_context(dashboard: Dashboard, inline: bool = False) -> dict[str, Any]:
     if inline:
         ctx["_theme_css"] = _load_file(f"static/css/themes/{s.theme}.css")
         ctx["_base_css"] = _load_file("static/css/base.css")
-        ctx["_hearth_js"] = _load_file("static/js/hearth.js")
+        ctx["_homebase_js"] = _load_file("static/js/homebase.js")
 
     return ctx

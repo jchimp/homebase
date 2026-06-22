@@ -143,7 +143,7 @@ Jinja inheritance, no extra framework.
   `data-mode` on `<html>` (omitted for `system`, so `color-scheme: light dark`
   follows the OS). The per-page toggle button overrides it by setting
   `data-mode` on `<html>` (which flips `color-scheme`), persisted per browser in
-  `localStorage` (`hearth-mode`); the Settings dropdown's `system` option clears
+  `localStorage` (`homebase-mode`); the Settings dropdown's `system` option clears
   that override. The baked `data-mode` also travels into exports. The
   admin `accent_override`/`accent_color` settings inject a `:root` override that
   retints `--accent` (and its derived dim/focus) across either mode.
@@ -354,4 +354,4 @@ No build step, no framework — just attributes on existing HTML elements.
 HTMX is included in `templates/base.html` via a `<script>` tag (either a CDN
 link or `/static/js/htmx.min.js` for fully offline operation).
 **Only admin templates use HTMX.** The public dashboard view has zero JS
-dependencies beyond `hearth.js` (weather fetch + search redirect).
+dependencies beyond `homebase.js` (weather fetch + search redirect).

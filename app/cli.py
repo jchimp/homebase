@@ -5,7 +5,7 @@ from .auth import get_admin_username, set_admin_credentials
 
 @click.group()
 def cli() -> None:
-    """Hearth management commands."""
+    """Homebase management commands."""
 
 
 @cli.command("set-password")

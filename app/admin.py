@@ -571,7 +571,7 @@ async def admin_settings_save(request: Request) -> RedirectResponse:
 
     db = load_dashboard()
     s = db.settings
-    s.title = get("title", "Hearth") or "Hearth"
+    s.title = get("title", "Homebase") or "Homebase"
     s.theme = get("theme", "nord")
     mode = get("mode", "system")
     s.mode = mode if mode in ("system", "light", "dark") else "system"

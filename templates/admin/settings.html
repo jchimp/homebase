@@ -47,7 +47,7 @@
         </label>
         <label class="form-label">
           Theme
-          <select class="form-input" name="theme" onchange="hearth.applyTheme(this.value)">
+          <select class="form-input" name="theme" onchange="homebase.applyTheme(this.value)">
             <option value="nord" {% if db.settings.theme == 'nord' %}selected{% endif %}>Nord (frost blue)</option>
             <option value="slate" {% if db.settings.theme == 'slate' %}selected{% endif %}>Slate (neutral grey)</option>
             <option value="sage" {% if db.settings.theme == 'sage' %}selected{% endif %}>Sage (green)</option>
@@ -55,7 +55,7 @@
         </label>
         <label class="form-label">
           Mode
-          <select class="form-input" name="mode" onchange="hearth.setMode(this.value)">
+          <select class="form-input" name="mode" onchange="homebase.setMode(this.value)">
             <option value="system" {% if db.settings.mode == 'system' %}selected{% endif %}>Auto (follow system)</option>
             <option value="light" {% if db.settings.mode == 'light' %}selected{% endif %}>Light</option>
             <option value="dark" {% if db.settings.mode == 'dark' %}selected{% endif %}>Dark</option>

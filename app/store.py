@@ -112,7 +112,7 @@ class NewsSettings(BaseModel):
 
 
 class Settings(BaseModel):
-    title: str = "Hearth"
+    title: str = "Homebase"
     theme: str = "nord"
     mode: Literal["system", "light", "dark"] = "system"
     layout: str = "icons"
