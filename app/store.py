@@ -120,6 +120,7 @@ class Settings(BaseModel):
     icon_style: Literal["monochrome", "color"] = "monochrome"
     accent_override: bool = False
     accent_color: str = "#0067c0"
+    show_theme_switcher: bool = False
     search: SearchSettings = SearchSettings()
     weather: WeatherSettings = WeatherSettings()
     export: ExportSettings = ExportSettings()

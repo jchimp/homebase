@@ -72,6 +72,11 @@
           </div>
         </div>
       </div>
+      <label class="form-label form-label--check">
+        <input type="checkbox" name="show_theme_switcher" {% if db.settings.show_theme_switcher %}checked{% endif %}>
+        Show public theme switcher
+        <span class="form-hint">Lets any visitor pick their own theme (saved per browser). Hide it for single-admin use.</span>
+      </label>
     </div>
 
     <div class="settings-section">

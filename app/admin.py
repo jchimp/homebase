@@ -580,6 +580,7 @@ async def admin_settings_save(request: Request) -> RedirectResponse:
     s.icon_style = get("icon_style", "monochrome")
     s.accent_override = flag("accent_override")
     s.accent_color = get("accent_color", "#0067c0") or "#0067c0"
+    s.show_theme_switcher = flag("show_theme_switcher")
     s.search.enabled = flag("search_enabled")
     s.search.engine_url = get("search_engine_url") or "https://duckduckgo.com/?q="
     s.search.placeholder = get("search_placeholder") or "Search the web…"

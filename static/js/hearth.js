@@ -190,6 +190,26 @@ const hearth = (() => {
     localStorage.setItem('hearth-theme', theme);
   }
 
+  // Public theme switcher: cycle the known themes, persisting per browser.
+  // Mirrors the KNOWN list in base.html's pre-paint bootstrap.
+  const THEMES = ['nord', 'slate', 'sage'];
+
+  function currentTheme() {
+    const stored = localStorage.getItem('hearth-theme');
+    if (THEMES.includes(stored)) return stored;
+    // Fall back to whatever the server rendered into the stylesheet href.
+    const link = document.getElementById('theme-css');
+    const match = link && link.getAttribute('href').match(/themes\/([^/]+)\.css/);
+    return (match && THEMES.includes(match[1])) ? match[1] : THEMES[0];
+  }
+
+  function cycleTheme() {
+    const next = THEMES[(THEMES.indexOf(currentTheme()) + 1) % THEMES.length];
+    applyTheme(next);
+    const btn = document.getElementById('theme-switch');
+    if (btn) btn.title = `Theme: ${next}`;
+  }
+
   function initMode() {
     updateModeIcon(currentMode());
     // Keep the icon in sync with the OS when the user hasn't overridden.
@@ -206,5 +226,5 @@ const hearth = (() => {
     initMode();
   });
 
-  return { search, toggleMode, setMode, applyTheme };
+  return { search, toggleMode, setMode, applyTheme, cycleTheme };
 })();
