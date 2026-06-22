@@ -3,7 +3,7 @@
   "settings": {
     "title": "Homebase",
     "theme": "slate",
-    "layout": "flame",
+    "layout": "icons",
     "visibility": "public",
     "icon_style": "monochrome",
     "search": {

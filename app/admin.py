@@ -575,7 +575,7 @@ async def admin_settings_save(request: Request) -> RedirectResponse:
     s.theme = get("theme", "nord")
     mode = get("mode", "system")
     s.mode = mode if mode in ("system", "light", "dark") else "system"
-    s.layout = get("layout", "flame")
+    s.layout = get("layout", "icons")
     s.visibility = get("visibility", "public")
     s.icon_style = get("icon_style", "monochrome")
     s.accent_override = flag("accent_override")

@@ -12,7 +12,7 @@ post-v1 and optional.
 - [x] `store.py`: load/validate `dashboard.json` (Pydantic), atomic save.
 - [x] Seed a sample `dashboard.json` (a few apps + bookmark groups).
 - [x] `render.py`: build the render-context dict (greeting, date, items).
-- [x] `templates/base.html` + `layouts/flame.html` + partials
+- [x] `templates/base.html` + `layouts/icons.html` + partials
       (`app_card`, `bookmark_group`).
 - [x] One polished theme (`themes/midnight.css`) using CSS variables.
 - [x] `GET /` renders the Flame layout from the seed file.

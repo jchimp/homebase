@@ -82,7 +82,7 @@ docker compose exec homebase python -m app.cli set-password
   live client-side) and a **search** box pointed at any engine URL — both keyless and
   client-side, so they keep working in the export.
 - **Themes** (`nord`, `slate`, `sage`) as CSS-variable files, with independent
-  light/dark mode. **Layouts** (`flame`, `detailed`) as single Jinja templates.
+  light/dark mode. **Layouts** (`icons`, `detailed`) as single Jinja templates.
 - **Static export** to a single `index.html`, auto-written on every save and available
   via a download button.
 

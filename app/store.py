@@ -28,6 +28,7 @@ DEFAULT_FEEDS = [
 # single-mode theme names onto their family so existing data keeps working.
 _LEGACY_THEMES = {"midnight": "sage", "light": "sage"}
 _KNOWN_THEMES = {"nord", "slate", "sage"}
+_LEGACY_LAYOUTS = {"flame": "icons"}
 
 
 class Icon(BaseModel):
@@ -114,7 +115,7 @@ class Settings(BaseModel):
     title: str = "Hearth"
     theme: str = "nord"
     mode: Literal["system", "light", "dark"] = "system"
-    layout: str = "flame"
+    layout: str = "icons"
     visibility: Literal["public", "private"] = "public"
     icon_style: Literal["monochrome", "color"] = "monochrome"
     accent_override: bool = False
@@ -132,6 +133,14 @@ class Settings(BaseModel):
             return "nord"
         v = _LEGACY_THEMES.get(v, v)
         return v if v in _KNOWN_THEMES else "nord"
+
+    @field_validator("layout", mode="before")
+    @classmethod
+    def _migrate_layout(cls, v: object) -> str:
+        """Map legacy layout names onto their new name; fall back to default."""
+        if not isinstance(v, str) or not v:
+            return "icons"
+        return _LEGACY_LAYOUTS.get(v, v)
 
 
 class Dashboard(BaseModel):
