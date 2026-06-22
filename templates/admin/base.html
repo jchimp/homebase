@@ -32,6 +32,7 @@
     <aside class="adm-nav">
       <div class="adm-nav__brand">Homebase</div>
       <nav class="adm-nav__links">
+        <a href="/" class="adm-nav__link" target="_blank">↗ View site</a>
         <a href="/admin/apps" class="adm-nav__link {% if active == 'apps' %}is-active{% endif %}">Apps</a>
         <a href="/admin/bookmarks" class="adm-nav__link {% if active == 'bookmarks' %}is-active{% endif %}">Bookmarks</a>
         <a href="/admin/settings" class="adm-nav__link {% if active == 'settings' %}is-active{% endif %}">Settings</a>
@@ -41,7 +42,6 @@
         <button class="adm-nav__link adm-nav__link--btn" onclick="hearth.toggleMode()">
           <span id="theme-toggle-icon">🌙</span> Light / dark
         </button>
-        <a href="/" class="adm-nav__link" target="_blank">↗ View site</a>
         <form action="/logout" method="post" style="display:contents">
           <button type="submit" class="adm-nav__link adm-nav__link--btn">Logout</button>
         </form>

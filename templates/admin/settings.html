@@ -25,19 +25,10 @@
           <input class="form-input" type="text" name="title" value="{{ db.settings.title }}" required>
         </label>
         <label class="form-label">
-          Theme
-          <select class="form-input" name="theme" onchange="hearth.applyTheme(this.value)">
-            <option value="nord" {% if db.settings.theme == 'nord' %}selected{% endif %}>Nord (frost blue)</option>
-            <option value="slate" {% if db.settings.theme == 'slate' %}selected{% endif %}>Slate (neutral grey)</option>
-            <option value="sage" {% if db.settings.theme == 'sage' %}selected{% endif %}>Sage (green)</option>
-          </select>
-        </label>
-        <label class="form-label">
-          Mode
-          <select class="form-input" name="mode" onchange="hearth.setMode(this.value)">
-            <option value="system" {% if db.settings.mode == 'system' %}selected{% endif %}>Auto (follow system)</option>
-            <option value="light" {% if db.settings.mode == 'light' %}selected{% endif %}>Light</option>
-            <option value="dark" {% if db.settings.mode == 'dark' %}selected{% endif %}>Dark</option>
+          Visibility
+          <select class="form-input" name="visibility">
+            <option value="public" {% if db.settings.visibility == 'public' %}selected{% endif %}>Public</option>
+            <option value="private" {% if db.settings.visibility == 'private' %}selected{% endif %}>Private (login required)</option>
           </select>
         </label>
         <label class="form-label">
@@ -55,10 +46,19 @@
           </select>
         </label>
         <label class="form-label">
-          Visibility
-          <select class="form-input" name="visibility">
-            <option value="public" {% if db.settings.visibility == 'public' %}selected{% endif %}>Public</option>
-            <option value="private" {% if db.settings.visibility == 'private' %}selected{% endif %}>Private (login required)</option>
+          Theme
+          <select class="form-input" name="theme" onchange="hearth.applyTheme(this.value)">
+            <option value="nord" {% if db.settings.theme == 'nord' %}selected{% endif %}>Nord (frost blue)</option>
+            <option value="slate" {% if db.settings.theme == 'slate' %}selected{% endif %}>Slate (neutral grey)</option>
+            <option value="sage" {% if db.settings.theme == 'sage' %}selected{% endif %}>Sage (green)</option>
+          </select>
+        </label>
+        <label class="form-label">
+          Mode
+          <select class="form-input" name="mode" onchange="hearth.setMode(this.value)">
+            <option value="system" {% if db.settings.mode == 'system' %}selected{% endif %}>Auto (follow system)</option>
+            <option value="light" {% if db.settings.mode == 'light' %}selected{% endif %}>Light</option>
+            <option value="dark" {% if db.settings.mode == 'dark' %}selected{% endif %}>Dark</option>
           </select>
         </label>
         <div class="form-label">
