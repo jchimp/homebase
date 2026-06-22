@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login — Homebase</title>
+  <link id="theme-css" rel="stylesheet" href="/static/css/themes/nord.css">
+  <script>
+    (function () {
+      var KNOWN = ['nord', 'slate', 'sage'];
+      var LEGACY = { midnight: 'sage', light: 'sage' };
+      var t = localStorage.getItem('hearth-theme');
+      if (t && LEGACY[t]) { t = LEGACY[t]; localStorage.setItem('hearth-theme', t); }
+      if (t && KNOWN.indexOf(t) !== -1) {
+        document.getElementById('theme-css').href = '/static/css/themes/' + t + '.css';
+      } else if (t) {
+        localStorage.removeItem('hearth-theme');
+      }
+      var m = localStorage.getItem('hearth-mode');
+      if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-mode', m);
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body class="login-page">
+  <div class="login-card">
+    <h1 class="login-card__title">Homebase</h1>
+    {% if error %}
+    <div class="login-card__error">{{ error }}</div>
+    {% endif %}
+    <form action="/login" method="post" class="login-form">
+      <label class="form-label">
+        Username
+        <input class="form-input" type="text" name="username" autocomplete="username" required autofocus>
+      </label>
+      <label class="form-label">
+        Password
+        <input class="form-input" type="password" name="password" autocomplete="current-password" required>
+      </label>
+      <button class="btn btn--primary" type="submit">Sign in</button>
+    </form>
+    <a class="login-card__back" href="/">← Back to Homebase</a>
+  </div>
+</body>
+</html>

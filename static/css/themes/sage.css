@@ -1,0 +1,33 @@
+/* Sage — green accent. Light = clean paper; dark = deep indigo (the original
+   Homebase palettes, merged). Mode follows system unless [data-mode] forces it. */
+:root {
+  color-scheme: light dark;
+
+  --bg:            light-dark(#f4f5f8, #12131c);
+  --bg-card:       light-dark(#ffffff, #1b1d2e);
+  --bg-card-hover: light-dark(#eef0f5, #23263d);
+  --bg-header:     light-dark(#ffffff, #0d0e18);
+  --bg-search:     light-dark(#ffffff, #1b1d2e);
+
+  --text:          light-dark(#1a1b26, #cdd6f4);
+  --text-muted:    light-dark(#5a6080, #7480a0);
+  --text-dim:      light-dark(#9099b0, #454960);
+
+  --accent:        light-dark(#4e7a2d, #9ccc65);
+  --accent-dim:    light-dark(rgba(78, 122, 45, 0.12), rgba(156, 204, 101, 0.12));
+
+  --border:        light-dark(rgba(0, 0, 0, 0.09), rgba(255, 255, 255, 0.07));
+  --border-focus:  light-dark(rgba(78, 122, 45, 0.5), rgba(156, 204, 101, 0.45));
+
+  --radius:        0.5rem;
+  --radius-lg:     0.75rem;
+
+  --shadow-card:   light-dark(0 2px 12px rgba(0, 0, 0, 0.07), 0 2px 12px rgba(0, 0, 0, 0.4));
+  --shadow-hover:  light-dark(0 6px 24px rgba(0, 0, 0, 0.12), 0 6px 24px rgba(0, 0, 0, 0.55));
+
+  --icon-color:    var(--accent);
+  --icon-size:     2.25rem;
+}
+
+:root[data-mode="light"] { color-scheme: light; }
+:root[data-mode="dark"]  { color-scheme: dark; }

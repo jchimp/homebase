@@ -1,0 +1,19 @@
+#--- Notes ---
+docs/private
+*.local.md
+NOTES.md
+
+#--- Temp ---
+*.tmp*
+*.bak*
+*.old*
+*.orig*
+
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# Admin credentials + session secret (never commit)
+data/auth.json
+data/auth.tmp

@@ -1,0 +1,9 @@
+{% macro app_card_detailed(app) %}
+<a class="app-card app-card--detailed" href="{{ app.url }}" target="_blank" rel="noopener noreferrer">
+  <div class="app-card__icon">{{ app.icon_html }}</div>
+  <div class="app-card__body">
+    <div class="app-card__name">{{ app.name }}</div>
+    {% if app.hint %}<div class="app-card__hint">{{ app.hint }}</div>{% endif %}
+  </div>
+</a>
+{% endmacro %}

@@ -1,0 +1,51 @@
+{% for app in db.apps %}
+<div class="item-row" id="app-{{ app.id }}">
+  {% if editing_id == app.id %}
+  <form class="item-form"
+        hx-put="/admin/apps/{{ app.id }}"
+        hx-target="#apps-list"
+        hx-swap="innerHTML">
+    <input class="form-input" type="text" name="name" value="{{ app.name }}" placeholder="Name" required>
+    <input class="form-input" type="url" name="url" value="{{ app.url }}" placeholder="https://…" required>
+    <input class="form-input" type="text" name="subtitle" value="{{ app.subtitle }}" placeholder="Subtitle">
+    <div class="item-row__actions">
+      <button class="btn btn--primary btn--sm" type="submit">Save</button>
+      <button class="btn btn--sm"
+              type="button"
+              hx-get="/admin/apps/list"
+              hx-target="#apps-list"
+              hx-swap="innerHTML">Cancel</button>
+    </div>
+  </form>
+  {% else %}
+  <div class="item-row__info">
+    <span class="item-row__name">{{ app.name }}</span>
+    {% if app.subtitle %}<span class="item-row__sub">{{ app.subtitle }}</span>{% endif %}
+    <span class="item-row__url">{{ app.url }}</span>
+  </div>
+  <div class="item-row__actions">
+    <button class="btn btn--sm"
+            hx-get="/admin/apps/{{ app.id }}/edit"
+            hx-target="#apps-list"
+            hx-swap="innerHTML">Edit</button>
+    <button class="btn btn--sm btn--danger"
+            hx-delete="/admin/apps/{{ app.id }}"
+            hx-target="#apps-list"
+            hx-swap="innerHTML"
+            hx-confirm="Delete '{{ app.name }}'?">Delete</button>
+    <button class="btn btn--sm btn--icon"
+            hx-post="/admin/apps/{{ app.id }}/move?dir=up"
+            hx-target="#apps-list"
+            hx-swap="innerHTML"
+            {% if loop.first %}disabled{% endif %}>↑</button>
+    <button class="btn btn--sm btn--icon"
+            hx-post="/admin/apps/{{ app.id }}/move?dir=down"
+            hx-target="#apps-list"
+            hx-swap="innerHTML"
+            {% if loop.last %}disabled{% endif %}>↓</button>
+  </div>
+  {% endif %}
+</div>
+{% else %}
+<p class="item-list__empty">No applications yet. Add one below.</p>
+{% endfor %}

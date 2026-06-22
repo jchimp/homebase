@@ -1,0 +1,78 @@
+{% from "admin/partials/icon_picker.html" import icon_picker %}
+{% for group in db.bookmarks %}
+<div class="bm-group" id="grp-{{ group.id }}">
+  <div class="bm-group__header">
+    {% if editing and editing.type == 'group' and editing.id == group.id %}
+    <form class="item-form"
+          hx-put="/admin/bookmarks/groups/{{ group.id }}"
+          hx-target="#bookmarks-section" hx-swap="innerHTML">
+      <input class="form-input" type="text" name="title" value="{{ group.title }}" placeholder="Group title" required>
+      <button class="btn btn--primary btn--sm" type="submit">Save</button>
+      <button class="btn btn--sm" type="button"
+              hx-get="/admin/bookmarks/section" hx-target="#bookmarks-section" hx-swap="innerHTML">Cancel</button>
+    </form>
+    {% else %}
+    <span class="drag-handle drag-handle--group" title="Drag to reorder">⠿</span>
+    <span class="bm-group__title">{{ group.title }}</span>
+    <div class="item-row__actions">
+      <button class="btn btn--sm"
+              hx-get="/admin/bookmarks/groups/{{ group.id }}/edit"
+              hx-target="#bookmarks-section" hx-swap="innerHTML">Edit</button>
+      <button class="btn btn--sm btn--danger"
+              hx-delete="/admin/bookmarks/groups/{{ group.id }}"
+              hx-target="#bookmarks-section" hx-swap="innerHTML"
+              hx-confirm="Delete group '{{ group.title }}' and all its links?">Delete</button>
+    </div>
+    {% endif %}
+  </div>
+
+  <ul class="bm-links" id="links-{{ group.id }}">
+    {% for link in group.links %}
+    <li class="bm-link" id="lnk-{{ link.id }}">
+      {% if editing and editing.type == 'link' and editing.gid == group.id and editing.lid == link.id %}
+      <form class="item-form item-form--edit"
+            hx-put="/admin/bookmarks/groups/{{ group.id }}/links/{{ link.id }}"
+            hx-target="#bookmarks-section" hx-swap="innerHTML">
+        <div class="item-form__fields">
+          <input class="form-input" type="text" name="name" value="{{ link.name }}" placeholder="Name" required>
+          <input class="form-input" type="url" name="url" value="{{ link.url }}" placeholder="https://…" required>
+        </div>
+        {{ icon_picker(link.icon, link.name) }}
+        <div class="item-row__actions">
+          <button class="btn btn--primary btn--sm" type="submit">Save</button>
+          <button class="btn btn--sm" type="button"
+                  hx-get="/admin/bookmarks/section" hx-target="#bookmarks-section" hx-swap="innerHTML">Cancel</button>
+        </div>
+      </form>
+      {% else %}
+      <span class="drag-handle drag-handle--item" title="Drag to reorder">⠿</span>
+      <div class="item-row__info">
+        <span class="item-row__name">{{ link.name }}</span>
+        <span class="item-row__url">{{ link.url }}</span>
+      </div>
+      <div class="item-row__actions">
+        <button class="btn btn--sm"
+                hx-get="/admin/bookmarks/groups/{{ group.id }}/links/{{ link.id }}/edit"
+                hx-target="#bookmarks-section" hx-swap="innerHTML">Edit</button>
+        <button class="btn btn--sm btn--danger"
+                hx-delete="/admin/bookmarks/groups/{{ group.id }}/links/{{ link.id }}"
+                hx-target="#bookmarks-section" hx-swap="innerHTML"
+                hx-confirm="Delete '{{ link.name }}'?">Delete</button>
+      </div>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <form class="item-form item-form--add-link"
+        hx-post="/admin/bookmarks/groups/{{ group.id }}/links"
+        hx-target="#bookmarks-section" hx-swap="innerHTML"
+        hx-on::after-request="this.reset()">
+    <input class="form-input" type="text" name="name" placeholder="Link name" required>
+    <input class="form-input" type="url" name="url" placeholder="https://…" required>
+    <button class="btn btn--sm btn--primary" type="submit">+ Link</button>
+  </form>
+</div>
+{% else %}
+<p class="item-list__empty">No bookmark groups yet. Add one below.</p>
+{% endfor %}

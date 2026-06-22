@@ -1,0 +1,15 @@
+{% macro bookmark_group(group) %}
+<div class="bookmark-group">
+  <h3 class="bookmark-group__title">{{ group.title }}</h3>
+  <ul class="bookmark-group__links">
+    {% for link in group.links %}
+    <li class="bookmark-link">
+      <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">
+        <span class="bookmark-link__icon">{{ link.icon_html }}</span>
+        <span class="bookmark-link__name">{{ link.name }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endmacro %}

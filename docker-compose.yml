@@ -1,0 +1,15 @@
+services:
+  homebase:
+    build: .
+    image: homebase:latest
+    container_name: homebase
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    environment:
+      - DATA_PATH=/data/dashboard.json
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped

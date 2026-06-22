@@ -1,0 +1,33 @@
+/* Slate — neutral grey with a Visual Studio blue accent. Light = old-office
+   light grey; dark = charcoal. Mode follows system unless [data-mode] forces it. */
+:root {
+  color-scheme: light dark;
+
+  --bg:            light-dark(#e7e8ea, #1b1d21);
+  --bg-card:       light-dark(#f6f7f8, #25282e);
+  --bg-card-hover: light-dark(#ffffff, #2f333a);
+  --bg-header:     light-dark(#f0f1f3, #15171a);
+  --bg-search:     light-dark(#ffffff, #25282e);
+
+  --text:          light-dark(#1e1e1e, #e8eaed);
+  --text-muted:    light-dark(#555a61, #a0a6b0);
+  --text-dim:      light-dark(#8a9099, #6b7178);
+
+  --accent:        light-dark(#0067c0, #4ea1ff);
+  --accent-dim:    light-dark(rgba(0, 103, 192, 0.12), rgba(78, 161, 255, 0.14));
+
+  --border:        light-dark(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0.09));
+  --border-focus:  light-dark(rgba(0, 103, 192, 0.55), rgba(78, 161, 255, 0.5));
+
+  --radius:        0.375rem;
+  --radius-lg:     0.5rem;
+
+  --shadow-card:   light-dark(0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 3px rgba(0, 0, 0, 0.5));
+  --shadow-hover:  light-dark(0 4px 14px rgba(0, 0, 0, 0.16), 0 4px 14px rgba(0, 0, 0, 0.6));
+
+  --icon-color:    var(--accent);
+  --icon-size:     2.25rem;
+}
+
+:root[data-mode="light"] { color-scheme: light; }
+:root[data-mode="dark"]  { color-scheme: dark; }

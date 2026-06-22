@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"{% if db and db.settings.mode != 'system' %} data-mode="{{ db.settings.mode }}"{% endif %}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Admin{% endblock %} — Homebase</title>
+  <link id="theme-css" rel="stylesheet" href="/static/css/themes/{{ db.settings.theme if db else 'nord' }}.css">
+  <script>
+    (function () {
+      var KNOWN = ['nord', 'slate', 'sage'];
+      var LEGACY = { midnight: 'sage', light: 'sage' };
+      var t = localStorage.getItem('hearth-theme');
+      if (t && LEGACY[t]) { t = LEGACY[t]; localStorage.setItem('hearth-theme', t); }
+      if (t && KNOWN.indexOf(t) !== -1) {
+        document.getElementById('theme-css').href = '/static/css/themes/' + t + '.css';
+      } else if (t) {
+        localStorage.removeItem('hearth-theme');
+      }
+      var m = localStorage.getItem('hearth-mode');
+      if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-mode', m);
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/css/admin.css">
+  {% if accent_css %}<style id="accent-override">{{ accent_css | safe }}</style>{% endif %}
+  <script src="/static/js/hearth.js"></script>
+  <script src="/static/js/sortable.min.js" defer></script>
+  <script src="/static/js/htmx.min.js" defer></script>
+  <script src="/static/js/admin.js" defer></script>
+</head>
+<body>
+  <div class="adm">
+    <aside class="adm-nav">
+      <div class="adm-nav__brand">Homebase</div>
+      <nav class="adm-nav__links">
+        <a href="/admin/apps" class="adm-nav__link {% if active == 'apps' %}is-active{% endif %}">Apps</a>
+        <a href="/admin/bookmarks" class="adm-nav__link {% if active == 'bookmarks' %}is-active{% endif %}">Bookmarks</a>
+        <a href="/admin/settings" class="adm-nav__link {% if active == 'settings' %}is-active{% endif %}">Settings</a>
+        <a href="/admin/export" class="adm-nav__link {% if active == 'export' %}is-active{% endif %}">Export</a>
+      </nav>
+      <div class="adm-nav__footer">
+        <button class="adm-nav__link adm-nav__link--btn" onclick="hearth.toggleMode()">
+          <span id="theme-toggle-icon">🌙</span> Light / dark
+        </button>
+        <a href="/" class="adm-nav__link" target="_blank">↗ View site</a>
+        <form action="/logout" method="post" style="display:contents">
+          <button type="submit" class="adm-nav__link adm-nav__link--btn">Logout</button>
+        </form>
+      </div>
+    </aside>
+    <main class="adm-main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% from "partials/app_card.html" import app_card %}
+{% from "partials/bookmark_group.html" import bookmark_group %}
+
+{% block body %}
+<div class="page">
+  <header class="header">
+    <div class="header__left">
+      <div class="header__greeting">{{ greeting }}</div>
+      <h1 class="header__title">{{ settings.title }}</h1>
+      <div class="header__date">{{ date_str }}</div>
+    </div>
+    <div class="header__center">
+      {% include "partials/search.html" %}
+    </div>
+    <div class="header__right">
+      {% if not inline %}
+      <button class="theme-toggle" onclick="hearth.toggleMode()" aria-label="Toggle light/dark" title="Toggle light/dark">
+        <span id="theme-toggle-icon">🌙</span>
+      </button>
+      {% endif %}
+      {% include "partials/weather.html" %}
+    </div>
+  </header>
+
+  {% if app_groups %}
+  {% for group in app_groups %}
+  <section class="section">
+    <h2 class="section__heading">{{ group.title }}</h2>
+    <div class="apps-grid">
+      {% for app in group.apps %}{{ app_card(app) }}{% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+  {% endif %}
+
+  {% if bookmark_groups %}
+  <section class="section">
+    <h2 class="section__heading">Bookmarks</h2>
+    <div class="bookmark-groups">
+      {% for group in bookmark_groups %}{{ bookmark_group(group) }}{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+
+{% if not inline %}
+<a href="/admin" class="admin-btn" title="Admin panel">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+    <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+  </svg>
+  <span>Admin</span>
+</a>
+{% endif %}
+{% endblock %}

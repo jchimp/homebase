@@ -1,0 +1,13 @@
+{% if weather.enabled and weather.lat %}
+<div class="weather"
+     id="weather-widget"
+     data-lat="{{ weather.lat }}"
+     data-lon="{{ weather.lon }}"
+     data-units="{{ weather.units }}">
+  <span class="weather__icon" id="weather-icon"></span>
+  <div class="weather__data">
+    <span class="weather__temp" id="weather-temp">--°</span>
+    <span class="weather__desc" id="weather-desc">Loading…</span>
+  </div>
+</div>
+{% endif %}

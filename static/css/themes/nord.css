@@ -1,0 +1,33 @@
+/* Nord — Snow Storm (light) / Polar Night (dark). Mode follows the
+   system unless [data-mode] forces it; light-dark() picks per color-scheme. */
+:root {
+  color-scheme: light dark;
+
+  --bg:            light-dark(#e5e9f0, #2e3440);
+  --bg-card:       light-dark(#ffffff, #3b4252);
+  --bg-card-hover: light-dark(#d8dee9, #434c5e);
+  --bg-header:     light-dark(#eceff4, #292e3c);
+  --bg-search:     light-dark(#ffffff, #3b4252);
+
+  --text:          light-dark(#2e3440, #eceff4);
+  --text-muted:    light-dark(#434c5e, #adb7c9);
+  --text-dim:      light-dark(#7b88a1, #6e7f99);
+
+  --accent:        light-dark(#5e81ac, #88c0d0);
+  --accent-dim:    light-dark(rgba(94, 129, 172, 0.14), rgba(136, 192, 208, 0.12));
+
+  --border:        light-dark(rgba(46, 52, 64, 0.12), rgba(255, 255, 255, 0.08));
+  --border-focus:  light-dark(rgba(94, 129, 172, 0.5), rgba(136, 192, 208, 0.45));
+
+  --radius:        0.5rem;
+  --radius-lg:     0.75rem;
+
+  --shadow-card:   light-dark(0 2px 12px rgba(46, 52, 64, 0.10), 0 2px 12px rgba(0, 0, 0, 0.4));
+  --shadow-hover:  light-dark(0 6px 24px rgba(46, 52, 64, 0.16), 0 6px 24px rgba(0, 0, 0, 0.55));
+
+  --icon-color:    var(--accent);
+  --icon-size:     2.25rem;
+}
+
+:root[data-mode="light"] { color-scheme: light; }
+:root[data-mode="dark"]  { color-scheme: dark; }

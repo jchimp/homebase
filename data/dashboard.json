@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "settings": {
+    "title": "Homebase",
+    "theme": "slate",
+    "mode": "dark",
+    "layout": "detailed",
+    "visibility": "public",
+    "icon_style": "monochrome",
+    "accent_override": true,
+    "accent_color": "#e69c56",
+    "search": {
+      "enabled": true,
+      "engine_url": "https://duckduckgo.com/?q=",
+      "placeholder": "Search the web…"
+    },
+    "weather": {
+      "enabled": true,
+      "city": "New York",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "units": "fahrenheit"
+    },
+    "export": {
+      "auto_on_save": true,
+      "auto_path": "/data/export/index.html"
+    }
+  },
+  "apps": [
+    {
+      "id": "grp-infra",
+      "title": "Infrastructure",
+      "items": [
+        {
+          "id": "app-proxmox",
+          "name": "Proxmox",
+          "subtitle": "Virtualization",
+          "url": "https://proxmox.lan:8006",
+          "icon": {
+            "source": "custom",
+            "ref": "server",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill-rule=\"evenodd\" d=\"M4 5h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm2 2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2ZM4 13h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1Zm2 2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z\"/></svg>"
+          }
+        },
+        {
+          "id": "app-portainer",
+          "name": "Portainer",
+          "subtitle": "Containers",
+          "url": "https://portainer.lan",
+          "icon": {
+            "source": "custom",
+            "ref": "terminal",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill-rule=\"evenodd\" d=\"M3 4h18a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm3.3 4.3L9 11l-2.7 2.7 1.4 1.4L11.8 11 7.7 6.9 6.3 8.3ZM13 14h4v2h-4z\"/></svg>"
+          }
+        },
+        {
+          "id": "app-pihole",
+          "name": "Pi-hole",
+          "subtitle": "DNS / ad-block",
+          "url": "http://pihole.lan/admin",
+          "icon": {
+            "source": "custom",
+            "ref": "shield",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M12 2 4 5v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5z\"/></svg>"
+          }
+        },
+        {
+          "id": "app-grafana",
+          "name": "Grafana",
+          "subtitle": "Metrics",
+          "url": "https://grafana.lan",
+          "icon": {
+            "source": "custom",
+            "ref": "chart",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M4 13h3v7H4zm6.5-5h3v12h-3zM17 10h3v10h-3z\"/></svg>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "grp-apps",
+      "title": "Apps",
+      "items": [
+        {
+          "id": "app-jellyfin",
+          "name": "Youtube",
+          "subtitle": "Youtube",
+          "url": "https://youtube.com",
+          "icon": {
+            "source": "iconify",
+            "ref": "mdi:youtube",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1em\" height=\"1em\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m10 15l5.19-3L10 9zm11.56-7.83c.13.47.22 1.1.28 1.9c.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83c-.25.9-.83 1.48-1.73 1.73c-.47.13-1.33.22-2.65.28c-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44c-.9-.25-1.48-.83-1.73-1.73c-.13-.47-.22-1.1-.28-1.9c-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83c.25-.9.83-1.48 1.73-1.73c.47-.13 1.33-.22 2.65-.28c1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44c.9.25 1.48.83 1.73 1.73\"/></svg>"
+          }
+        },
+        {
+          "id": "app-nextcloud",
+          "name": "Nextcloud",
+          "subtitle": "Files",
+          "url": "https://cloud.lan",
+          "icon": {
+            "source": "iconify",
+            "ref": "simple-icons:nextcloud",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1em\" height=\"1em\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M12.018 6.537c-2.5 0-4.6 1.712-5.241 4.015c-.56-1.232-1.793-2.105-3.225-2.105A3.57 3.57 0 0 0 0 12a3.57 3.57 0 0 0 3.552 3.553c1.432 0 2.664-.874 3.224-2.106c.641 2.304 2.742 4.016 5.242 4.016c2.487 0 4.576-1.693 5.231-3.977c.569 1.21 1.783 2.067 3.198 2.067A3.57 3.57 0 0 0 24 12a3.57 3.57 0 0 0-3.553-3.553c-1.416 0-2.63.858-3.199 2.067c-.654-2.284-2.743-3.978-5.23-3.977m0 2.085c1.878 0 3.378 1.5 3.378 3.378s-1.5 3.378-3.378 3.378A3.36 3.36 0 0 1 8.641 12c0-1.878 1.5-3.378 3.377-3.378m-8.466 1.91c.822 0 1.467.645 1.467 1.468s-.644 1.467-1.467 1.468A1.45 1.45 0 0 1 2.085 12a1.45 1.45 0 0 1 1.467-1.467zm16.895 0c.823 0 1.468.645 1.468 1.468s-.645 1.468-1.468 1.468A1.45 1.45 0 0 1 18.98 12a1.45 1.45 0 0 1 1.467-1.467z\"/></svg>"
+          }
+        },
+        {
+          "id": "app-vaultwarden",
+          "name": "Vaultwarden",
+          "subtitle": "Passwords",
+          "url": "https://vault.lan",
+          "icon": {
+            "source": "custom",
+            "ref": "lock",
+            "mode": "color",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill-rule=\"evenodd\" d=\"M7 9V7a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Zm2 0h6V7a3 3 0 0 0-6 0zm3 4a1.5 1.5 0 0 0-1 2.6V18h2v-2.4A1.5 1.5 0 0 0 12 13Z\"/></svg>"
+          }
+        },
+        {
+          "id": "app-homeassistant",
+          "name": "Home Assistant",
+          "subtitle": "Automation",
+          "url": "https://home.lan:8123",
+          "icon": {
+            "source": "custom",
+            "ref": "home",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M12 3 3 11h2.5v8H10v-5h4v5h4.5v-8H21z\"/></svg>"
+          }
+        }
+      ]
+    }
+  ],
+  "bookmarks": [
+    {
+      "id": "bm-grp-dev",
+      "title": "Development",
+      "links": [
+        {
+          "id": "bm-github",
+          "name": "GitHub",
+          "url": "https://github.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "github.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-gitlab",
+          "name": "GitLab",
+          "url": "https://gitlab.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "gitlab.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-stackoverflow",
+          "name": "Stack Overflow",
+          "url": "https://stackoverflow.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "stackoverflow.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-dockerhub",
+          "name": "Docker Hub",
+          "url": "https://hub.docker.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "hub.docker.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-mdn",
+          "name": "MDN Web Docs",
+          "url": "https://developer.mozilla.org",
+          "icon": {
+            "source": "favicon",
+            "ref": "developer.mozilla.org",
+            "mode": "monotone",
+            "svg": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "bm-grp-daily",
+      "title": "Daily",
+      "links": [
+        {
+          "id": "bm-gmail",
+          "name": "Gmail",
+          "url": "https://mail.google.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "mail.google.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-protonmail",
+          "name": "Proton Mail",
+          "url": "https://mail.proton.me",
+          "icon": {
+            "source": "favicon",
+            "ref": "mail.proton.me",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-youtube",
+          "name": "YouTube",
+          "url": "https://youtube.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "youtube.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-reddit",
+          "name": "Reddit",
+          "url": "https://reddit.com",
+          "icon": {
+            "source": "iconify",
+            "ref": "uil:books",
+            "mode": "monotone",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1em\" height=\"1em\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m22.47 18.82l-1-3.86l-3.15-11.59a1 1 0 0 0-1.22-.71l-3.87 1a1 1 0 0 0-.73-.33h-10a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8l2.2 8.22a1 1 0 0 0 1 .74a1.2 1.2 0 0 0 .26 0L21.79 20a1 1 0 0 0 .61-.47a1.05 1.05 0 0 0 .07-.71m-16 .55h-3v-2h3Zm0-4h-3v-6h3Zm0-8h-3v-2h3Zm5 12h-3v-2h3Zm0-4h-3v-6h3Zm0-8h-3v-2h3Zm2.25-1.74l2.9-.78l.52 1.93l-2.9.78Zm2.59 9.66l-1.55-5.8l2.9-.78l1.55 5.8Zm1 3.86l-.52-1.93l2.9-.78l.52 1.93Z\"/></svg>"
+          }
+        },
+        {
+          "id": "bm-hackernews",
+          "name": "Hacker News",
+          "url": "https://news.ycombinator.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "news.ycombinator.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "bm-grp-reference",
+      "title": "Reference",
+      "links": [
+        {
+          "id": "bm-wikipedia",
+          "name": "Wikipedia",
+          "url": "https://wikipedia.org",
+          "icon": {
+            "source": "favicon",
+            "ref": "wikipedia.org",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-archwiki",
+          "name": "Arch Wiki",
+          "url": "https://wiki.archlinux.org",
+          "icon": {
+            "source": "favicon",
+            "ref": "wiki.archlinux.org",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-fastapi",
+          "name": "FastAPI Docs",
+          "url": "https://fastapi.tiangolo.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "fastapi.tiangolo.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        },
+        {
+          "id": "bm-openmeteo",
+          "name": "Open-Meteo",
+          "url": "https://open-meteo.com",
+          "icon": {
+            "source": "favicon",
+            "ref": "open-meteo.com",
+            "mode": "monotone",
+            "svg": ""
+          }
+        }
+      ]
+    }
+  ]
+}

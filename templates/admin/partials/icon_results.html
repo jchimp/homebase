@@ -1,0 +1,9 @@
+{% for ref in icons %}
+{% set parts = ref.split(':') %}
+<button type="button" class="icon-opt" data-ref="{{ ref }}" data-source="iconify" title="{{ ref }}">
+  <span class="icon-opt__img" role="img" aria-label="{{ ref }}"
+        style="-webkit-mask-image:url(https://api.iconify.design/{{ parts[0] }}/{{ parts[1] }}.svg);mask-image:url(https://api.iconify.design/{{ parts[0] }}/{{ parts[1] }}.svg)"></span>
+</button>
+{% else %}
+<span class="icon-results__empty">No results</span>
+{% endfor %}

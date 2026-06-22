@@ -1,0 +1,148 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="adm-page">
+  <div class="adm-page__header">
+    <h1 class="adm-page__title">Settings</h1>
+  </div>
+
+  {% if flash %}
+  <div class="settings-flash settings-flash--ok">{{ flash }}</div>
+  {% endif %}
+  {% if geo_warn %}
+  <div class="settings-flash settings-flash--warn">{{ geo_warn }}</div>
+  {% endif %}
+
+  <form action="/admin/settings" method="post" class="settings-form">
+
+    <div class="settings-section">
+      <h2 class="settings-section__title">General</h2>
+      <div class="settings-grid">
+        <label class="form-label">
+          Site title
+          <input class="form-input" type="text" name="title" value="{{ db.settings.title }}" required>
+        </label>
+        <label class="form-label">
+          Theme
+          <select class="form-input" name="theme" onchange="hearth.applyTheme(this.value)">
+            <option value="nord" {% if db.settings.theme == 'nord' %}selected{% endif %}>Nord (frost blue)</option>
+            <option value="slate" {% if db.settings.theme == 'slate' %}selected{% endif %}>Slate (neutral grey)</option>
+            <option value="sage" {% if db.settings.theme == 'sage' %}selected{% endif %}>Sage (green)</option>
+          </select>
+        </label>
+        <label class="form-label">
+          Mode
+          <select class="form-input" name="mode" onchange="hearth.setMode(this.value)">
+            <option value="system" {% if db.settings.mode == 'system' %}selected{% endif %}>Auto (follow system)</option>
+            <option value="light" {% if db.settings.mode == 'light' %}selected{% endif %}>Light</option>
+            <option value="dark" {% if db.settings.mode == 'dark' %}selected{% endif %}>Dark</option>
+          </select>
+        </label>
+        <label class="form-label">
+          Layout
+          <select class="form-input" name="layout">
+            <option value="flame" {% if db.settings.layout == 'flame' %}selected{% endif %}>Icons (default)</option>
+            <option value="detailed" {% if db.settings.layout == 'detailed' %}selected{% endif %}>Detailed</option>
+          </select>
+        </label>
+        <label class="form-label">
+          Icon style
+          <select class="form-input" name="icon_style">
+            <option value="monochrome" {% if db.settings.icon_style == 'monochrome' %}selected{% endif %}>Monochrome</option>
+            <option value="color" {% if db.settings.icon_style == 'color' %}selected{% endif %}>Color</option>
+          </select>
+        </label>
+        <label class="form-label">
+          Visibility
+          <select class="form-input" name="visibility">
+            <option value="public" {% if db.settings.visibility == 'public' %}selected{% endif %}>Public</option>
+            <option value="private" {% if db.settings.visibility == 'private' %}selected{% endif %}>Private (login required)</option>
+          </select>
+        </label>
+        <div class="form-label">
+          Accent color
+          <div class="accent-field">
+            <input class="form-input form-input--color" type="color" name="accent_color" value="{{ db.settings.accent_color }}">
+            <label class="form-label--check accent-field__toggle">
+              <input type="checkbox" name="accent_override" {% if db.settings.accent_override %}checked{% endif %}>
+              Override theme accent
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h2 class="settings-section__title">Search</h2>
+      <label class="form-label form-label--check">
+        <input type="checkbox" name="search_enabled" {% if db.settings.search.enabled %}checked{% endif %}>
+        Enable search bar
+      </label>
+      <div class="settings-grid">
+        <label class="form-label">
+          Engine URL
+          <input class="form-input" type="url" name="search_engine_url"
+                 value="{{ db.settings.search.engine_url }}"
+                 placeholder="https://duckduckgo.com/?q=">
+        </label>
+        <label class="form-label">
+          Placeholder text
+          <input class="form-input" type="text" name="search_placeholder"
+                 value="{{ db.settings.search.placeholder }}">
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h2 class="settings-section__title">Weather</h2>
+      <label class="form-label form-label--check">
+        <input type="checkbox" name="weather_enabled" {% if db.settings.weather.enabled %}checked{% endif %}>
+        Enable weather widget
+      </label>
+      <div class="settings-grid">
+        <label class="form-label">
+          City
+          <input class="form-input" type="text" name="weather_city"
+                 value="{{ db.settings.weather.city }}"
+                 placeholder="e.g. New York">
+          {% if db.settings.weather.latitude %}
+          <span class="form-hint">
+            Geocoded: {{ '%.4f' % db.settings.weather.latitude }}, {{ '%.4f' % db.settings.weather.longitude }}
+          </span>
+          {% endif %}
+        </label>
+        <label class="form-label">
+          Units
+          <select class="form-input" name="weather_units">
+            <option value="fahrenheit" {% if db.settings.weather.units == 'fahrenheit' %}selected{% endif %}>Fahrenheit (°F)</option>
+            <option value="celsius" {% if db.settings.weather.units == 'celsius' %}selected{% endif %}>Celsius (°C)</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h2 class="settings-section__title">Export</h2>
+      <label class="form-label form-label--check">
+        <input type="checkbox" name="export_auto_on_save" {% if db.settings.export.auto_on_save %}checked{% endif %}>
+        Auto-export on every save
+      </label>
+      <div class="settings-grid">
+        <label class="form-label">
+          Export path
+          <input class="form-input" type="text" name="export_auto_path"
+                 value="{{ db.settings.export.auto_path }}"
+                 placeholder="/data/export/index.html">
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-actions">
+      <button class="btn btn--primary" type="submit">Save Settings</button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}

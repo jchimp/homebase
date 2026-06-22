@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Apps{% endblock %}
+
+{% block content %}
+<div class="adm-page">
+  <div class="adm-page__header">
+    <h1 class="adm-page__title">Applications</h1>
+  </div>
+
+  <div id="apps-section">
+    {% include "admin/partials/apps_section.html" %}
+  </div>
+
+  <div class="add-panel">
+    <div class="add-panel__title">Add Group</div>
+    <form class="item-form"
+          hx-post="/admin/apps/groups"
+          hx-target="#apps-section"
+          hx-swap="innerHTML"
+          hx-on::after-request="this.reset()">
+      <input class="form-input" type="text" name="title" placeholder="Group title" required>
+      <button class="btn btn--primary" type="submit">Add Group</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

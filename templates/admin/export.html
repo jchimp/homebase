@@ -1,0 +1,58 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Export{% endblock %}
+
+{% block content %}
+<div class="adm-page">
+  <div class="adm-page__header">
+    <h1 class="adm-page__title">Export</h1>
+  </div>
+
+  {% if flash %}
+  <div class="settings-flash settings-flash--ok">{{ flash }}</div>
+  {% endif %}
+  {% if flash_err %}
+  <div class="settings-flash settings-flash--warn">{{ flash_err }}</div>
+  {% endif %}
+
+  <div class="settings-form">
+
+    <div class="settings-section">
+      <h2 class="settings-section__title">HTML Export</h2>
+      <p class="form-hint" style="font-size:0.875rem;color:var(--text-muted)">
+        Renders the dashboard as a single self-contained HTML file — no server required.
+        Weather and search work standalone.
+      </p>
+      <div style="margin-top:0.75rem">
+        <a href="/export/download" class="btn btn--primary btn--sm">↓ Download homebase.html</a>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h2 class="settings-section__title">Data Backup</h2>
+      <p class="form-hint" style="font-size:0.875rem;color:var(--text-muted)">
+        Export or import the raw <code style="font-family:monospace;font-size:0.8em">dashboard.json</code>
+        for backups, migration, or repo round-trips.
+      </p>
+      <div style="margin-top:0.75rem;display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center">
+        <a href="/admin/data/export" class="btn btn--sm">↓ Download dashboard.json</a>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h2 class="settings-section__title">Data Restore</h2>
+      <p class="form-hint" style="font-size:0.875rem;color:var(--text-muted)">
+        Upload a <code style="font-family:monospace;font-size:0.8em">dashboard.json</code> to replace all current data.
+        Download a backup first.
+      </p>
+      <form action="/admin/data/import" method="post" enctype="multipart/form-data"
+            style="margin-top:0.75rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+        <input type="file" name="file" accept=".json,application/json"
+               class="form-input form-input--sm" style="width:auto" required>
+        <button class="btn btn--sm btn--primary" type="submit">↑ Import dashboard.json</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

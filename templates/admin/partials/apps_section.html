@@ -1,0 +1,82 @@
+{% from "admin/partials/icon_picker.html" import icon_picker %}
+{% for group in db.apps %}
+<div class="bm-group" id="grp-{{ group.id }}">
+  <div class="bm-group__header">
+    {% if editing and editing.type == 'group' and editing.id == group.id %}
+    <form class="item-form"
+          hx-put="/admin/apps/groups/{{ group.id }}"
+          hx-target="#apps-section"
+          hx-swap="innerHTML">
+      <input class="form-input" type="text" name="title" value="{{ group.title }}" placeholder="Group title" required>
+      <button class="btn btn--primary btn--sm" type="submit">Save</button>
+      <button class="btn btn--sm" type="button"
+              hx-get="/admin/apps/section" hx-target="#apps-section" hx-swap="innerHTML">Cancel</button>
+    </form>
+    {% else %}
+    <span class="drag-handle drag-handle--group" title="Drag to reorder">⠿</span>
+    <span class="bm-group__title">{{ group.title }}</span>
+    <div class="item-row__actions">
+      <button class="btn btn--sm"
+              hx-get="/admin/apps/groups/{{ group.id }}/edit"
+              hx-target="#apps-section" hx-swap="innerHTML">Edit</button>
+      <button class="btn btn--sm btn--danger"
+              hx-delete="/admin/apps/groups/{{ group.id }}"
+              hx-target="#apps-section" hx-swap="innerHTML"
+              hx-confirm="Delete group '{{ group.title }}' and all its apps?">Delete</button>
+    </div>
+    {% endif %}
+  </div>
+
+  <ul class="bm-links" id="items-{{ group.id }}">
+    {% for item in group.items %}
+    <li class="bm-link" id="app-{{ item.id }}">
+      {% if editing and editing.type == 'item' and editing.gid == group.id and editing.iid == item.id %}
+      <form class="item-form item-form--edit"
+            hx-put="/admin/apps/groups/{{ group.id }}/items/{{ item.id }}"
+            hx-target="#apps-section" hx-swap="innerHTML">
+        <div class="item-form__fields">
+          <input class="form-input" type="text" name="name" value="{{ item.name }}" placeholder="Name" required>
+          <input class="form-input" type="url" name="url" value="{{ item.url }}" placeholder="https://…" required>
+          <input class="form-input" type="text" name="subtitle" value="{{ item.subtitle }}" placeholder="Subtitle (optional)">
+        </div>
+        {{ icon_picker(item.icon, item.name) }}
+        <div class="item-row__actions">
+          <button class="btn btn--primary btn--sm" type="submit">Save</button>
+          <button class="btn btn--sm" type="button"
+                  hx-get="/admin/apps/section" hx-target="#apps-section" hx-swap="innerHTML">Cancel</button>
+        </div>
+      </form>
+      {% else %}
+      <span class="drag-handle drag-handle--item" title="Drag to reorder">⠿</span>
+      <div class="item-row__info">
+        <span class="item-row__name">{{ item.name }}</span>
+        {% if item.subtitle %}<span class="item-row__sub">{{ item.subtitle }}</span>{% endif %}
+        <span class="item-row__url">{{ item.url }}</span>
+      </div>
+      <div class="item-row__actions">
+        <button class="btn btn--sm"
+                hx-get="/admin/apps/groups/{{ group.id }}/items/{{ item.id }}/edit"
+                hx-target="#apps-section" hx-swap="innerHTML">Edit</button>
+        <button class="btn btn--sm btn--danger"
+                hx-delete="/admin/apps/groups/{{ group.id }}/items/{{ item.id }}"
+                hx-target="#apps-section" hx-swap="innerHTML"
+                hx-confirm="Delete '{{ item.name }}'?">Delete</button>
+      </div>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <form class="item-form item-form--add-link"
+        hx-post="/admin/apps/groups/{{ group.id }}/items"
+        hx-target="#apps-section" hx-swap="innerHTML"
+        hx-on::after-request="this.reset()">
+    <input class="form-input" type="text" name="name" placeholder="App name" required>
+    <input class="form-input" type="url" name="url" placeholder="https://…" required>
+    <input class="form-input" type="text" name="subtitle" placeholder="Subtitle (optional)">
+    <button class="btn btn--sm btn--primary" type="submit">+ App</button>
+  </form>
+</div>
+{% else %}
+<p class="item-list__empty">No application groups yet. Add one below.</p>
+{% endfor %}

@@ -1,0 +1,41 @@
+{% macro icon_picker(icon, item_name) %}
+<div class="icon-picker" data-item-name="{{ item_name | e }}">
+  <input type="hidden" name="icon_source" value="{{ icon.source }}">
+  <input type="hidden" name="icon_ref" value="{{ icon.ref }}">
+  <input type="hidden" name="icon_svg" value="{{ icon.svg | e }}">
+
+  <div class="icon-picker__controls">
+    <div class="icon-picker__preview">
+      {% if icon.svg and icon.ref and icon.source == 'iconify' %}
+      <span class="icon-opt__img" role="img"
+            style="-webkit-mask-image:url(https://api.iconify.design/{{ icon.ref.replace(':', '/') }}.svg);mask-image:url(https://api.iconify.design/{{ icon.ref.replace(':', '/') }}.svg)"></span>
+      {% elif icon.svg %}
+      <span class="icon-prev-custom" style="width:32px;height:32px;display:inline-flex;color:#9ccc65">
+        {{ icon.svg | safe }}
+      </span>
+      {% else %}
+      <span class="icon-prev-letter icon-placeholder" style="--icon-size:1.8rem">
+        {{ (item_name[:1] or '?').upper() }}
+      </span>
+      {% endif %}
+    </div>
+    <input type="text"
+          class="form-input icon-picker__search"
+          name="q"
+          placeholder="Search icons (e.g. server, home, cloud)…"
+          autocomplete="off"
+          hx-get="/api/icons/search"
+          hx-trigger="input changed delay:400ms"
+          hx-target="next .icon-results">
+    <div class="icon-results"></div>
+    <select name="icon_mode" class="form-input form-input--sm">
+      <option value="monotone" {% if icon.mode == 'monotone' %}selected{% endif %}>Mono</option>
+      <option value="color" {% if icon.mode == 'color' %}selected{% endif %}>Color</option>
+    </select>
+    <button type="button" class="btn btn--sm" data-picker-favicon>Favicon</button>
+    <button type="button" class="btn btn--sm" data-picker-clear>Clear</button>
+  </div>
+
+
+</div>
+{% endmacro %}

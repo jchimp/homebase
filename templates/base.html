@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"{% if mode and mode != 'system' %} data-mode="{{ mode }}"{% endif %}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ settings.title }}</title>
+  {% if inline %}
+  <style>{{ _theme_css | safe }}</style>
+  <style>{{ _base_css | safe }}</style>
+  {% else %}
+  <link id="theme-css" rel="stylesheet" href="/static/css/themes/{{ theme }}.css">
+  <script>
+    (function () {
+      var KNOWN = ['nord', 'slate', 'sage'];
+      var LEGACY = { midnight: 'sage', light: 'sage' };
+      var t = localStorage.getItem('hearth-theme');
+      if (t && LEGACY[t]) { t = LEGACY[t]; localStorage.setItem('hearth-theme', t); }
+      if (t && KNOWN.indexOf(t) !== -1) {
+        document.getElementById('theme-css').href = '/static/css/themes/' + t + '.css';
+      } else if (t) {
+        localStorage.removeItem('hearth-theme');
+      }
+      var m = localStorage.getItem('hearth-mode');
+      if (m === 'light' || m === 'dark') document.documentElement.setAttribute('data-mode', m);
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/css/base.css">
+  {% endif %}
+  {% if accent_css %}<style id="accent-override">{{ accent_css | safe }}</style>{% endif %}
+  {% block head %}{% endblock %}
+</head>
+<body>
+  {% block body %}{% endblock %}
+  {% if inline %}
+  <script>{{ _hearth_js | safe }}</script>
+  {% else %}
+  <script src="/static/js/hearth.js"></script>
+  {% endif %}
+  {% block scripts %}{% endblock %}
+</body>
+</html>
