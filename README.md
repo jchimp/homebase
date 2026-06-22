@@ -57,18 +57,6 @@ python -m app.cli set-password
 # container
 docker compose exec homebase python -m app.cli set-password
 ```
-
-## Routes
-
-| Path      | Purpose                                          |
-|-----------|--------------------------------------------------|
-| `/`       | Dashboard view (public or login-required).       |
-| `/login`  | Admin login (redirects to `/setup` on first run).|
-| `/setup`  | First-run admin account creation.                |
-| `/admin`  | Admin panel — apps, bookmarks, settings, export. |
-| `/export/download` | Download the standalone HTML export.    |
-| `/healthz`| Liveness check.                                  |
-
 ## Features
 
 - **Applications grid** and grouped **Bookmarks**, edited entirely through the UI
@@ -90,3 +78,14 @@ docker compose exec homebase python -m app.cli set-password
 Everything lives under `data/` (the mounted volume): `dashboard.json`, `auth.json`,
 and `export/index.html`.
 You can also just export a copy of the HTML and call it a day, it's not perfect, but it works.
+
+## Routes
+
+| Path      | Purpose                                          |
+|-----------|--------------------------------------------------|
+| `/`       | Dashboard view (public or login-required).       |
+| `/login`  | Admin login (redirects to `/setup` on first run).|
+| `/setup`  | First-run admin account creation.                |
+| `/admin`  | Admin panel — apps, bookmarks, settings, export. |
+| `/export/download` | Download the standalone HTML export.    |
+| `/healthz`| Liveness check.                                  |
