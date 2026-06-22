@@ -3,14 +3,32 @@ import os
 from pathlib import Path
 from typing import Literal, Optional
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 DATA_PATH = Path(os.getenv("DATA_PATH", "data/dashboard.json"))
+
+# Seed feeds for the news widget. Users edit these through the settings UI; this
+# is only the starting set on first run.
+DEFAULT_FEEDS = [
+    "https://isc.sans.edu/rssfeed.xml",
+    "https://cisa.kevintel.com/rss.xml",
+    "https://www.bleepingcomputer.com/feed/",
+    "https://www.theregister.com/security/headlines.atom",
+    "https://krebsonsecurity.com/feed/",
+    "https://www.schneier.com/feed/atom/",
+    "https://selfh.st/rss/",
+    # Combine subreddits into ONE request — Reddit aggressively rate-limits
+    # (429s) multiple separate feed hits from a server, but a single combined
+    # feed works and each entry is still tagged with its own subreddit.
+    "https://www.reddit.com/r/selfhosted+homelab+sysadmin/.rss",
+    "https://hnrss.org/frontpage",
+]
 
 # Themes consolidated into hue families with light/dark modes; map the old
 # single-mode theme names onto their family so existing data keeps working.
 _LEGACY_THEMES = {"midnight": "sage", "light": "sage"}
 _KNOWN_THEMES = {"nord", "slate", "sage"}
+_LEGACY_LAYOUTS = {"flame": "icons"}
 
 
 class Icon(BaseModel):
@@ -66,11 +84,38 @@ class ExportSettings(BaseModel):
     auto_path: str = "/data/export/index.html"
 
 
+class NewsSettings(BaseModel):
+    enabled: bool = False
+    columns: Literal[1, 3] = 1
+    per_column: int = 6
+    refresh_minutes: int = 20
+    feeds: list[str] = Field(default_factory=lambda: list(DEFAULT_FEEDS))
+
+    @field_validator("columns", mode="before")
+    @classmethod
+    def _coerce_columns(cls, v: object) -> int:
+        """Only 1 or 3 are supported; anything else falls back to a single column."""
+        try:
+            return 3 if int(v) == 3 else 1
+        except (TypeError, ValueError):
+            return 1
+
+    @field_validator("per_column")
+    @classmethod
+    def _clamp_per_column(cls, v: int) -> int:
+        return max(1, min(v, 20))
+
+    @field_validator("refresh_minutes")
+    @classmethod
+    def _clamp_refresh(cls, v: int) -> int:
+        return max(5, min(v, 1440))
+
+
 class Settings(BaseModel):
     title: str = "Hearth"
     theme: str = "nord"
     mode: Literal["system", "light", "dark"] = "system"
-    layout: str = "flame"
+    layout: str = "icons"
     visibility: Literal["public", "private"] = "public"
     icon_style: Literal["monochrome", "color"] = "monochrome"
     accent_override: bool = False
@@ -78,6 +123,7 @@ class Settings(BaseModel):
     search: SearchSettings = SearchSettings()
     weather: WeatherSettings = WeatherSettings()
     export: ExportSettings = ExportSettings()
+    news: NewsSettings = NewsSettings()
 
     @field_validator("theme", mode="before")
     @classmethod
@@ -87,6 +133,14 @@ class Settings(BaseModel):
             return "nord"
         v = _LEGACY_THEMES.get(v, v)
         return v if v in _KNOWN_THEMES else "nord"
+
+    @field_validator("layout", mode="before")
+    @classmethod
+    def _migrate_layout(cls, v: object) -> str:
+        """Map legacy layout names onto their new name; fall back to default."""
+        if not isinstance(v, str) or not v:
+            return "icons"
+        return _LEGACY_LAYOUTS.get(v, v)
 
 
 class Dashboard(BaseModel):

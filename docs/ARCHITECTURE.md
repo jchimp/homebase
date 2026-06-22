@@ -35,7 +35,7 @@ resolved SVG** so the file is fully self-contained.
   "settings": {
     "title": "Jeremy's Dashboard",
     "theme": "nord",                // hue family -> static/css/themes/nord.css
-    "layout": "flame",              // -> templates/layouts/flame.html
+    "layout": "icons",              // -> templates/layouts/icons.html
     "visibility": "public",         // public | private
     "icon_style": "monochrome",     // monochrome | color
     "search": {
@@ -132,7 +132,7 @@ Jinja inheritance, no extra framework.
 - `templates/partials/` — reusable macros: `app_card`, `bookmark_group`,
   `weather`, `search`. Built once, shared by all layouts.
 - `templates/layouts/<name>.html` — `{% extends "base.html" %}` and arranges the
-  partials. `flame.html` is layout #1. The active layout name comes from settings.
+  partials. `icons.html` is layout #1. The active layout name comes from settings.
 - **Themes** are CSS-variable files in `static/css/themes/` (`nord`, `slate`,
   `sage`). A theme is a *hue family* defining both a light and dark palette via
   the CSS `light-dark()` function plus `color-scheme`. `--icon-color` is

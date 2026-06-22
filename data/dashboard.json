@@ -24,6 +24,17 @@
     "export": {
       "auto_on_save": true,
       "auto_path": "/data/export/index.html"
+    },
+    "news": {
+      "enabled": true,
+      "columns": 3,
+      "per_column": 6,
+      "refresh_minutes": 5,
+      "feeds": [
+        "https://selfh.st/rss/",
+        "https://www.reddit.com/r/selfhosted+homelab+sysadmin/.rss",
+        "https://noted.lol/rss"
+      ]
     }
   },
   "apps": [

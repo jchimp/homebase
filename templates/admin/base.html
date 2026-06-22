@@ -36,12 +36,12 @@
         <a href="/admin/bookmarks" class="adm-nav__link {% if active == 'bookmarks' %}is-active{% endif %}">Bookmarks</a>
         <a href="/admin/settings" class="adm-nav__link {% if active == 'settings' %}is-active{% endif %}">Settings</a>
         <a href="/admin/export" class="adm-nav__link {% if active == 'export' %}is-active{% endif %}">Export</a>
+        <a href="/" class="adm-nav__link" target="_blank">↗ View site</a>
       </nav>
       <div class="adm-nav__footer">
         <button class="adm-nav__link adm-nav__link--btn" onclick="hearth.toggleMode()">
           <span id="theme-toggle-icon">🌙</span> Light / dark
         </button>
-        <a href="/" class="adm-nav__link" target="_blank">↗ View site</a>
         <form action="/logout" method="post" style="display:contents">
           <button type="submit" class="adm-nav__link adm-nav__link--btn">Logout</button>
         </form>

@@ -115,7 +115,7 @@ icon color, theme, layout, visibility, and export path / auto-export toggle.
 
 ### 5.10 Theming & layout
 - **Theme** = a CSS-variables file; switching themes never changes structure.
-- **Layout** = a Jinja template consuming the shared render-context; `flame` ships
+- **Layout** = a Jinja template consuming the shared render-context; `icons` ships
   first. Additional layouts can be added later as single template files.
 - **Done when:** changing the theme restyles the board, and the architecture
   supports dropping in a second layout without a data change.

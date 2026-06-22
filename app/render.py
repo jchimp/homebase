@@ -5,6 +5,7 @@ from typing import Any
 
 from markupsafe import Markup
 
+from .news import curate, get_cached_items
 from .store import Dashboard, Icon
 
 
@@ -123,6 +124,17 @@ def build_context(dashboard: Dashboard, inline: bool = False) -> dict[str, Any]:
             "enabled": s.search.enabled,
             "engine_url": s.search.engine_url,
             "placeholder": s.search.placeholder,
+        },
+        "news": {
+            "enabled": s.news.enabled,
+            "columns": s.news.columns,
+            "columns_data": (
+                curate(get_cached_items(), s.news.columns, s.news.per_column)
+                if s.news.enabled
+                else []
+            ),
+            # Live page polls; the export (inline) baked snapshot stays static.
+            "refresh_ms": 0 if inline else s.news.refresh_minutes * 60 * 1000,
         },
         "icon_style": s.icon_style,
         "accent_css": accent_override_css(s.accent_color) if s.accent_override else "",

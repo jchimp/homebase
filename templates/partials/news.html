@@ -1,0 +1,29 @@
+{% if news.enabled %}
+<section class="section news">
+  <div class="news__inner news__inner--{{ news.columns }}">
+    <h2 class="section__heading">News</h2>
+    {% set item_count = news.columns_data | map('length') | sum %}
+    {% if item_count %}
+    <div class="news__columns news__columns--{{ news.columns }}" id="news-columns"{% if news.refresh_ms %} data-refresh="{{ news.refresh_ms }}"{% endif %}>
+      {% for column in news.columns_data %}
+      <ul class="news__list">
+        {% for item in column %}
+        <li class="news__item">
+          {% if item.thumbnail %}
+          <img class="news__thumb" src="{{ item.thumbnail }}" alt="" loading="lazy" referrerpolicy="no-referrer">
+          {% endif %}
+          <div class="news__body">
+            <a class="news__title" href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a>
+            <span class="news__meta">{{ item.source }} · <span class="news__time" data-ts="{{ item.published }}"></span></span>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="news__empty">No news yet — feeds are still loading.</p>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

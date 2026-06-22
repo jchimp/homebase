@@ -6,6 +6,7 @@ from fastapi import APIRouter, Body, File, Form, Request, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
 
+from . import news
 from .auth import check_auth
 from .export import auto_export
 from .icons import sanitize_svg
@@ -562,13 +563,19 @@ async def admin_settings_save(request: Request) -> RedirectResponse:
     def flag(key: str) -> bool:
         return key in form
 
+    def _to_int(value: str, default: int) -> int:
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return default
+
     db = load_dashboard()
     s = db.settings
     s.title = get("title", "Hearth") or "Hearth"
     s.theme = get("theme", "nord")
     mode = get("mode", "system")
     s.mode = mode if mode in ("system", "light", "dark") else "system"
-    s.layout = get("layout", "flame")
+    s.layout = get("layout", "icons")
     s.visibility = get("visibility", "public")
     s.icon_style = get("icon_style", "monochrome")
     s.accent_override = flag("accent_override")
@@ -580,6 +587,11 @@ async def admin_settings_save(request: Request) -> RedirectResponse:
     s.weather.units = get("weather_units", "fahrenheit")
     s.export.auto_on_save = flag("export_auto_on_save")
     s.export.auto_path = get("export_auto_path") or "/data/export/index.html"
+    s.news.enabled = flag("news_enabled")
+    s.news.columns = _to_int(get("news_columns"), 1)
+    s.news.per_column = _to_int(get("news_per_column"), 6)
+    s.news.refresh_minutes = _to_int(get("news_refresh_minutes"), 20)
+    s.news.feeds = [u.strip() for u in get("news_feeds").splitlines() if u.strip()]
 
     new_city = get("weather_city")
     if new_city != s.weather.city or (new_city and s.weather.latitude is None):
@@ -599,6 +611,13 @@ async def admin_settings_save(request: Request) -> RedirectResponse:
             s.weather.latitude = s.weather.longitude = None
 
     save_dashboard(db)
+    # Refresh news now so the widget (and the auto-export) reflect the saved
+    # feeds immediately, rather than waiting for the background loop's next tick.
+    if s.news.enabled and s.news.feeds:
+        try:
+            await news.refresh(s.news)
+        except Exception:
+            pass
     _do_auto_export(db)
     request.session["flash"] = "Settings saved."
     return RedirectResponse("/admin/settings", status_code=303)

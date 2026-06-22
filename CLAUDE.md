@@ -64,7 +64,7 @@ app/
   templates/
     base.html        # skeleton with named blocks
     layouts/
-      flame.html     # layout #1 (default)
+      icons.html     # layout #1 (default)
     partials/
       app_card.html
       bookmark_group.html

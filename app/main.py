@@ -1,3 +1,6 @@
+import asyncio
+from contextlib import asynccontextmanager
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
@@ -5,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 
+from . import news
 from .admin import router as admin_router
 from .api import router as api_router
 from .auth import (
@@ -21,7 +25,23 @@ from .store import load_dashboard
 
 load_dotenv()
 
-app = FastAPI(title="Homebase")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Serve the persisted news snapshot instantly, then refresh in the background."""
+    news.load_cache_from_disk()
+    task = asyncio.create_task(news.refresh_loop())
+    try:
+        yield
+    finally:
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
+
+
+app = FastAPI(title="Homebase", lifespan=lifespan)
 app.add_middleware(
     SessionMiddleware,
     secret_key=get_session_secret(),
