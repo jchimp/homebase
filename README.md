@@ -34,8 +34,7 @@ uvicorn app.main:app --reload
 ## Configuration
 
 All environment variables are **optional overrides** — copy `.env.example` to `.env`
-only if you need them. By default everything is configured through the admin UI and
-stored on the data volume.
+only if you need them. By default everything is configured through the admin UI and writen to disk.
 
 | Variable              | Purpose                                                        |
 |-----------------------|----------------------------------------------------------------|
@@ -89,10 +88,5 @@ docker compose exec homebase python -m app.cli set-password
 ## Backup
 
 Everything lives under `data/` (the mounted volume): `dashboard.json`, `auth.json`,
-and `export/index.html`. Back up = copy the folder.
-
-## Security posture
-
-Designed for LAN / Tailscale or behind a reverse proxy with an identity provider.
-Don't expose the bespoke login raw to the internet — front it. All externally fetched
-SVGs (Iconify, favicons, uploads) are sanitized with `lxml` before storage.
+and `export/index.html`.
+You can also just export a copy of the HTML and call it a day, it's not perfect, but it works.
