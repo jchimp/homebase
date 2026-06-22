@@ -26,7 +26,7 @@
       "auto_path": "/data/export/index.html"
     },
     "news": {
-      "enabled": true,
+      "enabled": false,
       "columns": 3,
       "per_column": 6,
       "refresh_minutes": 5,
