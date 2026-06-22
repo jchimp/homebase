@@ -28,10 +28,8 @@ https://www.theregister.com/security/headlines.atom
 https://krebsonsecurity.com/feed/
 https://www.schneier.com/feed/atom/
 https://selfh.st/rss/
-https://www.reddit.com/r/selfhosted/.rss
-https://www.reddit.com/r/homelab/.rss
-https://www.reddit.com/r/sysadmin/.rss
-https://hnrss.org/frontpage
+https://www.reddit.com/r/selfhosted+homelab+sysadmin/.rss
+https://noted.lol/rss
 ```
 (CISA killed their official KEV RSS — `cisa.kevintel.com` is a mirror.)
 
