@@ -15,8 +15,12 @@ async def api_news() -> JSONResponse:
     """Curated news as an array of columns. Public, no auth.
 
     Mirrors the server-rendered layout so the live poll can rebuild in place.
+    Returns empty columns when the widget is disabled so the endpoint never
+    leaks the still-cached snapshot after the admin turns news off.
     """
     news = load_dashboard().settings.news
+    if not news.enabled:
+        return JSONResponse([])
     return JSONResponse(curate(get_cached_items(), news.columns, news.per_column))
 
 
