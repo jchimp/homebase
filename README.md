@@ -11,32 +11,6 @@ can be synced to a docs folder or committed to a repo.
 
 ![Homebase dashboard](docs/images/homebase-screenshot.png)
 
-## Why
-
-Existing self-hosted dashboards force a bad trade. The polished ones (Homarr, Dashy)
-are heavy and do far more than needed; the lean ones (Flame, Homepage, Homer) lean on
-hand-edited YAML you edit-and-rebuild. Homebase is deliberately small: log in, add a
-link, get a nice icon, done — and take the whole board with you as a portable file.
-
-**Non-negotiables** (see [CLAUDE.md](CLAUDE.md) for the full list):
-
-- **One user.** A single admin with a password. No multi-user, roles, or SSO.
-- **No hand-edited config.** Data lives in one JSON file the *UI* owns.
-- **The render is static.** Server-rendered HTML + a little vanilla JS. No SPA.
-- **Live page and export share one renderer.** Export = render the current view with
-  everything inlined.
-
-## Stack
-
-- **Backend:** Python 3.12, FastAPI, Jinja2 — single Docker container.
-- **Data:** one `data/dashboard.json` file. No database, no ORM.
-- **Frontend:** server-rendered Jinja templates + CSS custom properties + vanilla JS
-  for the three dynamic bits (icon picker, weather fetch, search). HTMX on admin forms.
-- **Auth:** single admin; bcrypt password hash + signed session cookie.
-- **External services (all keyless):** [Iconify](https://iconify.design) (icon search),
-  [Open-Meteo](https://open-meteo.com) (weather + geocoding), jsDelivr CDNs
-  (selfh.st / dashboard-icons logos).
-
 ## Quick start
 
 ### Docker (recommended)
@@ -116,14 +90,6 @@ docker compose exec homebase python -m app.cli set-password
 
 Everything lives under `data/` (the mounted volume): `dashboard.json`, `auth.json`,
 and `export/index.html`. Back up = copy the folder.
-
-## Documentation
-
-- [PRD.md](PRD.md) — *what* we're building and acceptance criteria.
-- [ARCHITECTURE.md](ARCHITECTURE.md) — *how* it works (data model, renderer, icon
-  consistency engine, endpoints).
-- [ROADMAP.md](ROADMAP.md) — *in what order* (P0–P2 are v1, complete).
-- [CLAUDE.md](CLAUDE.md) — repo conventions and non-negotiables.
 
 ## Security posture
 
