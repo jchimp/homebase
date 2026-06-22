@@ -124,6 +124,46 @@
     </div>
 
     <div class="settings-section">
+      <h2 class="settings-section__title">News</h2>
+      <label class="form-label form-label--check">
+        <input type="checkbox" name="news_enabled" {% if db.settings.news.enabled %}checked{% endif %}>
+        Enable news widget
+      </label>
+      <div class="settings-grid">
+        <label class="form-label">
+          Columns
+          <select class="form-input" name="news_columns">
+            <option value="1" {% if db.settings.news.columns == 1 %}selected{% endif %}>1 column</option>
+            <option value="3" {% if db.settings.news.columns == 3 %}selected{% endif %}>3 columns</option>
+          </select>
+        </label>
+        <label class="form-label">
+          Articles per column
+          <input class="form-input" type="number" name="news_per_column"
+                 value="{{ db.settings.news.per_column }}" min="1" max="20">
+        </label>
+        <label class="form-label">
+          Refresh (minutes)
+          <input class="form-input" type="number" name="news_refresh_minutes"
+                 value="{{ db.settings.news.refresh_minutes }}" min="5" max="1440">
+        </label>
+      </div>
+      <label class="form-label">
+        Feeds (one URL per line)
+        <textarea class="form-input form-input--mono" name="news_feeds" rows="8"
+                  placeholder="https://example.com/rss.xml">{{ db.settings.news.feeds | join('\n') }}</textarea>
+        <span class="form-hint form-hint--info">
+          <span class="form-hint__icon" aria-hidden="true">i</span>
+          <span>
+            <strong>Reddit:</strong> use one combined feed instead of separate ones —
+            it rate-limits multiple requests. Join subreddits with <code>+</code>:
+            <br><code>https://www.reddit.com/r/selfhosted+homelab+sysadmin/.rss</code>
+          </span>
+        </span>
+      </label>
+    </div>
+
+    <div class="settings-section">
       <h2 class="settings-section__title">Export</h2>
       <label class="form-label form-label--check">
         <input type="checkbox" name="export_auto_on_save" {% if db.settings.export.auto_on_save %}checked{% endif %}>

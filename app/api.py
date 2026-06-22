@@ -3,9 +3,21 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 from .icons import fetch_icon_svg, iconify_search, resolve_favicon
+from .news import curate, get_cached_items
+from .store import load_dashboard
 
 router = APIRouter(prefix="/api")
 templates = Jinja2Templates(directory="templates")
+
+
+@router.get("/news")
+async def api_news() -> JSONResponse:
+    """Curated news as an array of columns. Public, no auth.
+
+    Mirrors the server-rendered layout so the live poll can rebuild in place.
+    """
+    news = load_dashboard().settings.news
+    return JSONResponse(curate(get_cached_items(), news.columns, news.per_column))
 
 
 @router.get("/icons/search", response_class=HTMLResponse)

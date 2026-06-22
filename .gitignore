@@ -17,3 +17,6 @@ __pycache__/
 # Admin credentials + session secret (never commit)
 data/auth.json
 data/auth.tmp
+
+# News feed cache (runtime state, regenerated on boot)
+data/feed_cache.json
