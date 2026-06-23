@@ -166,6 +166,7 @@ const homebase = (() => {
     document.documentElement.setAttribute('data-mode', mode);
     localStorage.setItem('homebase-mode', mode);
     updateModeIcon(mode);
+    syncPanel();
   }
 
   function toggleMode() {
@@ -178,22 +179,23 @@ const homebase = (() => {
       document.documentElement.removeAttribute('data-mode');
       localStorage.removeItem('homebase-mode');
       updateModeIcon(currentMode());
+      syncPanel();
     } else {
       applyMode(mode);
     }
   }
 
-  // Live preview for the Settings theme dropdown; persists per browser.
+  // ── Theme (hue family) ────────────────────────────────
+  // Mirrors the KNOWN list in base.html's pre-paint bootstrap.
+  const THEMES = ['nord', 'slate', 'sage'];
+
+  // Live preview for the Settings theme dropdown and the Appearance panel;
+  // persists per browser.
   function applyTheme(theme) {
     const link = document.getElementById('theme-css');
     if (link) link.href = `/static/css/themes/${theme}.css`;
     localStorage.setItem('homebase-theme', theme);
   }
-
-  // Public theme switcher: a popup menu of the known themes, persisting per
-  // browser. Mirrors the KNOWN list in base.html's pre-paint bootstrap.
-  const THEMES = ['nord', 'slate', 'sage'];
-  const THEME_LABELS = { nord: 'Nord', slate: 'Slate', sage: 'Sage' };
 
   function currentTheme() {
     const stored = localStorage.getItem('homebase-theme');
@@ -204,60 +206,90 @@ const homebase = (() => {
     return (match && THEMES.includes(match[1])) ? match[1] : THEMES[0];
   }
 
-  function buildThemeMenu() {
-    const menu = document.getElementById('theme-menu');
-    if (!menu) return;
-    const active = currentTheme();
-    menu.innerHTML = '';
-    THEMES.forEach((name) => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.setAttribute('role', 'menuitem');
-      item.textContent = THEME_LABELS[name] || name;
-      if (name === active) item.classList.add('is-active');
-      item.addEventListener('click', () => selectTheme(name));
-      menu.appendChild(item);
-    });
-  }
-
   function selectTheme(theme) {
     applyTheme(theme);
-    buildThemeMenu();
-    closeThemeMenu();
+    syncPanel();
   }
 
-  function closeThemeMenu() {
-    const menu = document.getElementById('theme-menu');
-    const btn = document.getElementById('theme-switch');
-    if (menu) menu.hidden = true;
+  // ── Accent (client-side override) ─────────────────────
+  // Retints --accent and its two derived vars into #accent-client, mirroring
+  // accent_override_css() in app/render.py. Persists per browser; "Default"
+  // clears it and falls back to the server/theme accent.
+
+  function accentRule(hex) {
+    const h = hex.replace('#', '');
+    if (h.length !== 6) return '';
+    const r = parseInt(h.slice(0, 2), 16),
+          g = parseInt(h.slice(2, 4), 16),
+          b = parseInt(h.slice(4, 6), 16);
+    return `:root{--accent:#${h};--accent-dim:rgba(${r},${g},${b},0.12);`
+         + `--border-focus:rgba(${r},${g},${b},0.5);}`;
+  }
+
+  function selectAccent(hex) {
+    localStorage.setItem('homebase-accent', hex);
+    const el = document.getElementById('accent-client');
+    if (el) el.textContent = accentRule(hex);
+    syncPanel();
+  }
+
+  function clearAccent() {
+    localStorage.removeItem('homebase-accent');
+    const el = document.getElementById('accent-client');
+    if (el) el.textContent = '';
+    syncPanel();
+  }
+
+  // ── Appearance panel ──────────────────────────────────
+
+  function syncPanel() {
+    const panel = document.getElementById('appearance-panel');
+    if (!panel) return;
+    const mode = localStorage.getItem('homebase-mode') || 'system';
+    panel.querySelectorAll('#mode-seg button').forEach((b) =>
+      b.classList.toggle('is-active', b.dataset.mode === mode));
+    const theme = currentTheme();
+    panel.querySelectorAll('.theme-list__item').forEach((b) =>
+      b.classList.toggle('is-active', b.dataset.theme === theme));
+    const accent = (localStorage.getItem('homebase-accent') || '').toLowerCase();
+    panel.querySelectorAll('.accent-swatch[data-accent]').forEach((b) =>
+      b.classList.toggle('is-active', b.dataset.accent.toLowerCase() === accent));
+    const custom = document.getElementById('accent-custom');
+    if (custom && accent) custom.value = accent;
+  }
+
+  function closePanel() {
+    const panel = document.getElementById('appearance-panel');
+    const btn = document.getElementById('appearance-btn');
+    if (panel) panel.hidden = true;
     if (btn) btn.setAttribute('aria-expanded', 'false');
     document.removeEventListener('click', onDocClick, true);
     document.removeEventListener('keydown', onKeydown);
   }
 
   function onDocClick(e) {
-    if (!e.target.closest('.theme-picker')) closeThemeMenu();
+    if (!e.target.closest('.appearance')) closePanel();
   }
 
   function onKeydown(e) {
-    if (e.key === 'Escape') closeThemeMenu();
+    if (e.key === 'Escape') closePanel();
   }
 
-  function toggleThemeMenu() {
-    const menu = document.getElementById('theme-menu');
-    const btn = document.getElementById('theme-switch');
-    if (!menu) return;
-    if (menu.hidden) {
-      buildThemeMenu();
-      menu.hidden = false;
+  function togglePanel() {
+    const panel = document.getElementById('appearance-panel');
+    const btn = document.getElementById('appearance-btn');
+    if (!panel) return;
+    if (panel.hidden) {
+      syncPanel();
+      panel.hidden = false;
       if (btn) btn.setAttribute('aria-expanded', 'true');
-      // Defer so this opening click doesn't immediately close the menu.
+      // Defer so this opening click doesn't immediately close the panel.
       setTimeout(() => {
         document.addEventListener('click', onDocClick, true);
         document.addEventListener('keydown', onKeydown);
       }, 0);
     } else {
-      closeThemeMenu();
+      closePanel();
     }
   }
 
@@ -277,5 +309,8 @@ const homebase = (() => {
     initMode();
   });
 
-  return { search, toggleMode, setMode, applyTheme, toggleThemeMenu, selectTheme };
+  return {
+    search, toggleMode, setMode, applyTheme,
+    togglePanel, selectTheme, selectAccent, clearAccent,
+  };
 })();

@@ -27,22 +27,69 @@
   <link rel="stylesheet" href="/static/css/base.css">
   {% endif %}
   {% if accent_css %}<style id="accent-override">{{ accent_css | safe }}</style>{% endif %}
+  {% if not inline %}<style id="accent-client"></style>
+  <script>
+    (function () {
+      var a = localStorage.getItem('homebase-accent');
+      if (!a) return;
+      var h = a.replace('#', '');
+      if (h.length !== 6) return;
+      var r = parseInt(h.slice(0, 2), 16),
+          g = parseInt(h.slice(2, 4), 16),
+          b = parseInt(h.slice(4, 6), 16);
+      document.getElementById('accent-client').textContent =
+        ':root{--accent:#' + h + ';--accent-dim:rgba(' + r + ',' + g + ',' + b +
+        ',0.12);--border-focus:rgba(' + r + ',' + g + ',' + b + ',0.5);}';
+    })();
+  </script>{% endif %}
   {% block head %}{% endblock %}
 </head>
 <body>
   {% block body %}{% endblock %}
   {% if not inline %}
+  {% set accent_presets = ['#5e81ac', '#4fa3a5', '#4c9a76', '#d08770', '#bf616a', '#8a7fb5'] %}
   <div class="dashboard-controls">
-    {% if settings.show_theme_switcher %}
-    <div class="theme-picker">
-      <button class="theme-toggle" id="theme-switch" onclick="homebase.toggleThemeMenu()"
-              aria-haspopup="true" aria-expanded="false" aria-label="Choose theme" title="Choose theme">🎨</button>
-      <div class="theme-menu" id="theme-menu" role="menu" hidden></div>
+    <div class="appearance">
+      <button class="theme-toggle" id="appearance-btn" onclick="homebase.togglePanel()"
+              aria-haspopup="true" aria-expanded="false" aria-label="Appearance" title="Appearance">🎨</button>
+      <div class="appearance-panel" id="appearance-panel" role="dialog" aria-label="Appearance" hidden>
+
+        <div class="appearance-section">
+          <span class="appearance-section__title">Mode</span>
+          <div class="segmented" id="mode-seg" role="group" aria-label="Mode">
+            <button type="button" data-mode="system" onclick="homebase.setMode('system')">Auto</button>
+            <button type="button" data-mode="light" onclick="homebase.setMode('light')">Light</button>
+            <button type="button" data-mode="dark" onclick="homebase.setMode('dark')">Dark</button>
+          </div>
+        </div>
+
+        {% if settings.show_theme_switcher %}
+        <div class="appearance-section">
+          <span class="appearance-section__title">Theme</span>
+          <div class="theme-list" id="theme-list">
+            <button type="button" class="theme-list__item" data-theme="nord" onclick="homebase.selectTheme('nord')">Nord</button>
+            <button type="button" class="theme-list__item" data-theme="slate" onclick="homebase.selectTheme('slate')">Slate</button>
+            <button type="button" class="theme-list__item" data-theme="sage" onclick="homebase.selectTheme('sage')">Sage</button>
+          </div>
+        </div>
+
+        <div class="appearance-section">
+          <span class="appearance-section__title">Accent</span>
+          <div class="accent-row" id="accent-swatches">
+            {% for c in accent_presets %}
+            <button type="button" class="accent-swatch" data-accent="{{ c }}" style="--swatch: {{ c }}"
+                    onclick="homebase.selectAccent('{{ c }}')" aria-label="Accent {{ c }}" title="{{ c }}"></button>
+            {% endfor %}
+            <label class="accent-swatch accent-swatch--custom" title="Custom color">
+              <input type="color" id="accent-custom" onchange="homebase.selectAccent(this.value)">
+            </label>
+            <button type="button" class="accent-default" onclick="homebase.clearAccent()">Default</button>
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
     </div>
-    {% endif %}
-    <button class="theme-toggle" onclick="homebase.toggleMode()" aria-label="Toggle light/dark" title="Toggle light/dark">
-      <span id="theme-toggle-icon">🌙</span>
-    </button>
   </div>
   {% endif %}
   {% if inline %}
