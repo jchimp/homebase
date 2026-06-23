@@ -536,15 +536,22 @@ ul { list-style: none; }
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.85rem;
+  justify-content: center;
+  padding: 0.5rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 0.8rem;
+  border-radius: 50%;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.12s, background 0.12s, border-color 0.12s;
+}
+
+.admin-btn:hover svg {
+  transform: rotate(45deg);
+}
+
+.admin-btn svg {
+  transition: transform 0.2s;
 }
 
 .admin-btn:hover {
