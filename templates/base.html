@@ -31,6 +31,20 @@
 </head>
 <body>
   {% block body %}{% endblock %}
+  {% if not inline %}
+  <div class="dashboard-controls">
+    {% if settings.show_theme_switcher %}
+    <div class="theme-picker">
+      <button class="theme-toggle" id="theme-switch" onclick="homebase.toggleThemeMenu()"
+              aria-haspopup="true" aria-expanded="false" aria-label="Choose theme" title="Choose theme">🎨</button>
+      <div class="theme-menu" id="theme-menu" role="menu" hidden></div>
+    </div>
+    {% endif %}
+    <button class="theme-toggle" onclick="homebase.toggleMode()" aria-label="Toggle light/dark" title="Toggle light/dark">
+      <span id="theme-toggle-icon">🌙</span>
+    </button>
+  </div>
+  {% endif %}
   {% if inline %}
   <script>{{ _homebase_js | safe }}</script>
   {% else %}

@@ -190,9 +190,10 @@ const homebase = (() => {
     localStorage.setItem('homebase-theme', theme);
   }
 
-  // Public theme switcher: cycle the known themes, persisting per browser.
-  // Mirrors the KNOWN list in base.html's pre-paint bootstrap.
+  // Public theme switcher: a popup menu of the known themes, persisting per
+  // browser. Mirrors the KNOWN list in base.html's pre-paint bootstrap.
   const THEMES = ['nord', 'slate', 'sage'];
+  const THEME_LABELS = { nord: 'Nord', slate: 'Slate', sage: 'Sage' };
 
   function currentTheme() {
     const stored = localStorage.getItem('homebase-theme');
@@ -203,11 +204,61 @@ const homebase = (() => {
     return (match && THEMES.includes(match[1])) ? match[1] : THEMES[0];
   }
 
-  function cycleTheme() {
-    const next = THEMES[(THEMES.indexOf(currentTheme()) + 1) % THEMES.length];
-    applyTheme(next);
+  function buildThemeMenu() {
+    const menu = document.getElementById('theme-menu');
+    if (!menu) return;
+    const active = currentTheme();
+    menu.innerHTML = '';
+    THEMES.forEach((name) => {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.setAttribute('role', 'menuitem');
+      item.textContent = THEME_LABELS[name] || name;
+      if (name === active) item.classList.add('is-active');
+      item.addEventListener('click', () => selectTheme(name));
+      menu.appendChild(item);
+    });
+  }
+
+  function selectTheme(theme) {
+    applyTheme(theme);
+    buildThemeMenu();
+    closeThemeMenu();
+  }
+
+  function closeThemeMenu() {
+    const menu = document.getElementById('theme-menu');
     const btn = document.getElementById('theme-switch');
-    if (btn) btn.title = `Theme: ${next}`;
+    if (menu) menu.hidden = true;
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', onDocClick, true);
+    document.removeEventListener('keydown', onKeydown);
+  }
+
+  function onDocClick(e) {
+    if (!e.target.closest('.theme-picker')) closeThemeMenu();
+  }
+
+  function onKeydown(e) {
+    if (e.key === 'Escape') closeThemeMenu();
+  }
+
+  function toggleThemeMenu() {
+    const menu = document.getElementById('theme-menu');
+    const btn = document.getElementById('theme-switch');
+    if (!menu) return;
+    if (menu.hidden) {
+      buildThemeMenu();
+      menu.hidden = false;
+      if (btn) btn.setAttribute('aria-expanded', 'true');
+      // Defer so this opening click doesn't immediately close the menu.
+      setTimeout(() => {
+        document.addEventListener('click', onDocClick, true);
+        document.addEventListener('keydown', onKeydown);
+      }, 0);
+    } else {
+      closeThemeMenu();
+    }
   }
 
   function initMode() {
@@ -226,5 +277,5 @@ const homebase = (() => {
     initMode();
   });
 
-  return { search, toggleMode, setMode, applyTheme, cycleTheme };
+  return { search, toggleMode, setMode, applyTheme, toggleThemeMenu, selectTheme };
 })();

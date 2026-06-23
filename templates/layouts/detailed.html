@@ -14,14 +14,6 @@
       {% include "partials/search.html" %}
     </div>
     <div class="header__right">
-      {% if not inline %}
-      {% if settings.show_theme_switcher %}
-      <button class="theme-toggle" id="theme-switch" onclick="homebase.cycleTheme()" aria-label="Switch theme" title="Switch theme">🎨</button>
-      {% endif %}
-      <button class="theme-toggle" onclick="homebase.toggleMode()" aria-label="Toggle light/dark" title="Toggle light/dark">
-        <span id="theme-toggle-icon">🌙</span>
-      </button>
-      {% endif %}
       {% include "partials/weather.html" %}
     </div>
   </header>

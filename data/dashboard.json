@@ -9,6 +9,7 @@
     "icon_style": "monochrome",
     "accent_override": true,
     "accent_color": "#e69c56",
+    "show_theme_switcher": true,
     "search": {
       "enabled": true,
       "engine_url": "https://duckduckgo.com/?q=",
